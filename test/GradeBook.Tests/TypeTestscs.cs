@@ -5,6 +5,32 @@ namespace GradeBook.Tests
 {
     public class TypeTests
     {
+        [Fact] 
+        public void CSharpCanPassByRef()
+        {
+            //arrange
+            var book1 = GetBook("Book 1");
+            GetBookSetName(out book1, "Science Book");
+
+            //action
+
+            //assert
+            Assert.Equal("Science Book", book1.Name);
+        }
+
+        [Fact] 
+       public void CSharpIsPassByValue()
+        {
+            //arrange
+            var book1 = GetBook("Book 1");
+            SetName(book1, "Science Book");
+
+            //action
+
+            //assert
+            Assert.Equal("Science Book", book1.Name);
+        }
+
         [Fact]
         public void TwoReferencesReturnsDifferentObjects()
         {
@@ -37,5 +63,19 @@ namespace GradeBook.Tests
         {
             return new Book(name);
         }
+        
+        private void GetBookSetName(ref Book book, string name)
+        {
+            // this creates a new instance of book object. Changing the value of book param to point
+            // to different book object. This is an ideal situation as we do not want the copy to 
+            // change the original object. 
+            book = new Book(name);
+        }
+        
+        private void SetName(Book book, string name)
+        {
+            book.Name = name;
+        }
+
     }
 }
